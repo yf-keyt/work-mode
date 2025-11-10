@@ -27,20 +27,47 @@
 
 ---
 
+## Команды
+
+| Команда | Описание |
+|----------|-----------|
+| `Work Mode: Start (Stopwatch)` | Запуск режима и секундомера |
+| `Work Mode: Stop` | Остановка и выход из режима |
+| `Work Mode: Toggle` | Переключение (вкл/выкл) |
+| `Work Mode: Pause/Resume Stopwatch` | Пауза или продолжение таймера |
+| `Work Mode: Show Sessions Log` | Открыть журнал сессий |
+| `Work Mode: Open Backups Folder` | Открыть папку с бэкапами |
+
+---
+
+## Горячие клавиши
+
+| Комбинация | Действие |
+|-------------|-----------|
+| `Ctrl + Alt + M` / `⌘ + Alt + M` | Переключить режим Work Mode |
+| `Ctrl + Alt + P` / `⌘ + Alt + P` | Пауза / продолжить секундомер |
+
+---
+
 ## Структура служебных данных
 
 После запуска плагина в проекте создаётся структура:
 
+```
 .vscode-work-mode/
-    backups/ # ZIP-архивы с изменёнными файлами
-    logs/
-        sessions.jsonl # журнал сессий
-        backups.jsonl # журнал созданных бэкапов
+├─ backups/           # ZIP-архивы с изменёнными файлами
+└─ logs/
+   ├─ sessions.jsonl  # журнал сессий
+   └─ backups.jsonl   # журнал созданных бэкапов
+```
 
+---
 
 ## Настройки
 
-Все параметры доступны в settings.json:
+Все параметры доступны в `settings.json`:
+
+```json
 {
   "work-mode.enableMinimalUI": true,
   "work-mode.backup.enabled": true,
@@ -54,18 +81,33 @@
   ],
   "work-mode.backup.saveAllBefore": true
 }
+```
 
-- **Пояснения:**  
-  - enableMinimalUI — включает минималистичный режим при старте Work Mode.
-  - backup.intervalSec — интервал между созданием бэкапов (в секундах).
-  - backup.maxItems — максимальное количество архивов (старые удаляются).
-  - backup.excludes — шаблоны исключений.
-  - backup.saveAllBefore — при создании бэкапа вызывает Save All.
+**Пояснения:**
+- `enableMinimalUI` — включает минималистичный режим при старте Work Mode  
+- `backup.intervalSec` — интервал между созданием бэкапов (в секундах)  
+- `backup.maxItems` — максимальное количество архивов (старые удаляются)  
+- `backup.excludes` — шаблоны исключений  
+- `backup.saveAllBefore` — при создании бэкапа вызывает `Save All`  
 
+---
 
+## Как установить
 
+1. Склонировать репозиторий или скачать `.zip`:
+   ```bash
+   git clone git@github.com:your-username/work-mode.git
+   ```
+2. Открыть проект в VS Code  
+3. Нажать `F5` — откроется новое окно с запущенным плагином  
+4. Активировать командой **“Work Mode: Start (Stopwatch)”**
 
+---
 
+## Технические детали
 
-
+- Написан на **Node.js + VS Code API**
+- Хранит данные локально в `.vscode-work-mode/`
+- Бэкапы создаются автоматически при изменении файлов
+- Совместим с macOS, Windows, Linux
 
