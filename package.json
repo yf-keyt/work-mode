@@ -1,0 +1,82 @@
+{
+  "$schema": "vscode://schemas/vscode-extensions",
+  "name": "work-mode",
+  "displayName": "Work Mode",
+  "description": "Минималистичный режим работы с секундомером, инкрементными бэкапами и журналом сессий",
+  "version": "0.0.1",
+  "engines": { "vscode": "^1.105.0" },
+  "categories": ["Other"],
+  "main": "./extension.js",
+
+  "contributes": {
+    "commands": [
+      { "command": "work-mode.start", "title": "Work Mode: Start (Stopwatch)" },
+      { "command": "work-mode.stop", "title": "Work Mode: Stop" },
+      { "command": "work-mode.toggle", "title": "Work Mode: Toggle" },
+      { "command": "work-mode.pauseResume", "title": "Work Mode: Pause/Resume Stopwatch" },
+      { "command": "work-mode.showLog", "title": "Work Mode: Show Sessions Log" },
+      { "command": "work-mode.openBackupsFolder", "title": "Work Mode: Open Backups Folder" }
+    ],
+    "keybindings": [
+      { "command": "work-mode.toggle", "key": "ctrl+alt+m", "mac": "cmd+alt+m", "when": "editorTextFocus" },
+      { "command": "work-mode.pauseResume", "key": "ctrl+alt+p", "mac": "cmd+alt+p", "when": "editorTextFocus" }
+    ],
+    "configuration": {
+      "title": "Work Mode",
+      "properties": {
+        "work-mode.enableMinimalUI": {
+          "type": "boolean",
+          "default": true,
+          "description": "Включать Zen Mode и скрывать панели при старте Work Mode"
+        },
+        "work-mode.backup.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Включить инкрементные резервные копии (сохраняются только изменённые файлы)"
+        },
+        "work-mode.backup.intervalSec": {
+          "type": "number",
+          "default": 60,
+          "minimum": 10,
+          "description": "Интервал между созданием инкрементных бэкапов (в секундах)"
+        },
+        "work-mode.backup.maxItems": {
+          "type": "number",
+          "default": 300,
+          "minimum": 1,
+          "description": "Максимальное количество ZIP-файлов бэкапов"
+        },
+        "work-mode.backup.excludes": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": ["**/node_modules/**", "**/.git/**", "**/dist/**", "**/.vscode-work-mode/**"],
+          "description": "Папки и файлы, исключённые из бэкапов"
+        },
+        "work-mode.backup.saveAllBefore": {
+          "type": "boolean",
+          "default": true,
+          "description": "Сохранять все открытые файлы перед созданием бэкапа"
+        }
+      }
+    }
+  },
+
+  "scripts": {
+    "lint": "eslint .",
+    "pretest": "npm run lint",
+    "test": "vscode-test"
+  },
+
+  "dependencies": {
+    "adm-zip": "^0.5.12"
+  },
+
+  "devDependencies": {
+    "@types/vscode": "^1.105.0",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "22.x",
+    "eslint": "^9.36.0",
+    "@vscode/test-cli": "^0.0.11",
+    "@vscode/test-electron": "^2.5.2"
+  }
+}
